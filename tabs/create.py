@@ -9,6 +9,8 @@ def create_tab():
     input_title = st.text_input("タイトルを入力してください")
     input_content = st.text_area("内容を入力してください")
 
+    openai.api_key = st.secrets.get("api_key", "")
+
     # 依頼ボタンを追加
     if st.button("生成"):
         if input_content.strip():
