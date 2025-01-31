@@ -34,7 +34,7 @@ def create_tab():
                 # 提案されたソースコードを保存
                 if input_title:
                     file_path = os.path.join("pages", f"{input_title}.py")
-                    with open(file_path, "w") as file:
+                    with open(file_path, "w", encoding="utf-8") as file:
                         file.write(full_response)
                     st.success(f"{input_title}が生成されました。")
 

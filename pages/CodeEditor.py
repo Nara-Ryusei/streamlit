@@ -20,12 +20,12 @@ selected_file = st.selectbox("編集するファイルを選択してくださ�
 
 if selected_file:
     file_path = f"{pages_path}/{selected_file}.py"
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         content = file.read()
 
     content = st_monaco(value=content, height="600px", language="python", theme="vs-dark")
 
     if st.button("保存"):
-        with open(file_path, "w") as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             file.write(content)
         st.success(f"{selected_file} が保存されました。")

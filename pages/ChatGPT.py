@@ -43,7 +43,7 @@ if prompt := st.chat_input("何をお手伝いしますか？"):
 
     file_path = os.path.join(pages_path, selected_file) + ".py"
     # ファイル内容読み取り
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         file_content = file.read()
 
     try:
