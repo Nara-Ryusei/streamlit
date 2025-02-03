@@ -2,7 +2,6 @@
 
 FROM python:3.9-slim
 WORKDIR /app
-COPY requirements.txt .
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -11,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-#RUN git clone https://github.com/Nara-Ryusei/streamlit.git .
+RUN git clone https://github.com/Nara-Ryusei/streamlit.git .
 
 RUN pip3 install -r requirements.txt
 
