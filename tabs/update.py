@@ -2,15 +2,23 @@ import streamlit as st
 import openai
 import os
 
+
 def update_tab():
     st.write("### 更新")
-    
+
+    openai.api_key = st.session_state.get("api_key", "")
+    model = st.session_state.get("model", "gpt-4o")
+
     # 編集禁止ファイルのリスト
     restricted_files = ["ChatGPT.py", "CodeEditor.py"]
 
     # アプリのタイトルを選択してくださいのセレクトボックス
     def get_pages_files():
-        return [f.replace(".py", "") for f in os.listdir("pages") if f.endswith(".py") and f not in restricted_files]
+        return [
+            f.replace(".py", "")
+            for f in os.listdir("pages")
+            if f.endswith(".py") and f not in restricted_files
+        ]
 
     pages_files = get_pages_files()
     app_title = st.selectbox("更新するアプリを選択してください", pages_files)
@@ -28,7 +36,7 @@ def update_tab():
 
                 # OpenAI APIにリクエストを送信
                 response = openai.chat.completions.create(
-                    model="gpt-4o",
+                    model=model,
                     messages=[
                         {
                             "role": "system",

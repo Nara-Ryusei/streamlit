@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 import os
 
+
 def create_tab():
     st.write("### 新規作成")
 
@@ -9,7 +10,8 @@ def create_tab():
     input_title = st.text_input("タイトルを入力してください")
     input_content = st.text_area("内容を入力してください")
 
-    openai.api_key = st.secrets.get("api_key", "")
+    openai.api_key = st.session_state.get("api_key", "")
+    model = st.session_state.get("model", "gpt-4o")
 
     # 依頼ボタンを追加
     if st.button("生成"):
@@ -17,7 +19,7 @@ def create_tab():
             try:
                 # OpenAI APIにリクエストを送信
                 stream = openai.chat.completions.create(  # 注意: 最新のAPIエンドポイント使用
-                    model="gpt-4o",
+                    model=model,
                     messages=[
                         {
                             "role": "system",

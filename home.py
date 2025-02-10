@@ -5,11 +5,6 @@ import os
 st.set_page_config(layout="wide")
 # タイトルと内容を入力
 st.title("Streamlit × OpenAI")
-
-# セッションステートにAPIキーがなければ初期化
-if "api_key" not in st.session_state:
-    st.session_state["api_key"] = ""
-
 # secrets.toml ファイルが存在するか確認
 secrets_path = ".streamlit/secrets.toml"
 if not os.path.exists(secrets_path):
@@ -17,8 +12,14 @@ if not os.path.exists(secrets_path):
     with open(secrets_path, "w") as f:
         f.write("")
 
+# 設定読み込み
+if "api_key" not in st.session_state:
+    st.session_state["api_key"] = st.secrets.get("api_key", "")
+if "model" not in st.session_state:
+    st.session_state["model"] = st.secrets.get("model", "gpt-4o")
+
 # APIキーが設定されていない場合の警告メッセージ
-show_warning = not st.secrets.get("api_key")
+show_warning = not st.session_state.get("api_key")
 
 # タブを作成
 tab1, tab2, tab3, tab4 = st.tabs(["新規作成", "更新", "削除", "設定"])

@@ -2,11 +2,18 @@ import os
 import streamlit as st
 from openai import OpenAI, APIConnectionError
 
+# 設定読み込み
+if "api_key" not in st.session_state:
+    st.session_state["api_key"] = st.secrets.get("api_key", "")
+if "model" not in st.session_state:
+    st.session_state["model"] = st.secrets.get("model", "gpt-4o")
+
 # OpenAI APIキーを設定
 if "api_key" in st.session_state:
-    client = OpenAI(api_key=st.session_state["api_key"])
+    client = OpenAI(api_key=st.session_state.get("api_key", ""))
 else:
     st.error("API Keyが設定されていません。設定タブでAPI Keyを入力してください。")
+model = st.session_state.get("model", "gpt-4o")
 
 # セッションステートを初期化
 if "messages" not in st.session_state:
@@ -49,7 +56,7 @@ if prompt := st.chat_input("何をお手伝いしますか？"):
     try:
         # OpenAI APIを使ってAIからの応答をストリーミングで生成
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=model,
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {
